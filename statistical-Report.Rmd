@@ -3,12 +3,20 @@ title: "STATS6170-Statistical-Report"
 author: "Aditya Sagave"
 date: "`r Sys.Date()`"
 output:
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(corrplot)
+library(car)
+library(stats)
+library(olsrr)
+library(nlme)
+library(plm)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -17,18 +25,155 @@ h1{text-align: center;}
 p{text-align: justify;}
 ```
 
-<h1>Abstract</h1>
+# Abstract
 
-<p>This statistical report analyzes a dataset comprising information from a random sample of 201 weightlifters. The variables recorded for each subject include their gender, body weight, age, and the maximum weight lifted during an unspecified exercise. The report aims to address two research questions: (a) Is there any difference in the average age of female and male weightlifters? and (b) What is the relation between the body weight of weightlifters and the weight lifted? The data have been imported into R, and various statistical analyses, including hypothesis tests and linear regression, have been conducted. The report provides insights into the average age differences between genders and investigates the relationship between body weight and weight lifted while considering the role of gender.</p>
+<p>This statistical report examines the relationship between gender, age, body weight, and weight lifted among weightlifters. The research questions address whether there is a difference in the average age between female and male weightlifters and the relation between body weight and weight lifted, considering gender as a factor. The analysis involves hypothesis testing, linear regression, and diagnostic assessments. The results provide insights into the average age differences and the relationship between body weight and weight lifted among weightlifters.</p>
 
 \newpage
 
-<h1>Introduction</h1>
-<p>Weightlifting is a popular sport that requires individuals to showcase their strength and power. Understanding the factors that influence weightlifting performance, such as age and body weight, is crucial for athletes, trainers, and researchers. In this report, we analyze a dataset collected from a sample of weightlifters, aiming to answer two key research questions.
+# Introduction
 
-The first research question focuses on determining if there is any difference in the average age between female and male weightlifters. Age plays a vital role in athletic performance, and it is important to explore potential gender differences in this aspect. We will assess the assumption of normality and equality of variances between genders before conducting a two-sample t-test to compare the average ages.
+<p>
 
-The second research question examines the relationship between body weight and the weight lifted by weightlifters. Body weight is often considered a crucial factor in weightlifting performance, and we will investigate whether there is a linear association between body weight and weight lifted. Additionally, we will consider the influence of gender in this relationship. Depending on the findings, we may need to perform separate regression analyses for female and male weightlifters.
+Weightlifting is a popular sport and physical activity that involves lifting heavy weights to develop strength and muscle mass. Understanding the factors that contribute to weightlifting performance can provide valuable insights for athletes, trainers, and researchers. In this statistical report, we investigate two research questions related to weightlifters: (a) Is there any difference in the average age of female and male weightlifters? and (b) What is the relation between the body weight of weightlifters and the weight lifted?
 
-By addressing these research questions, we aim to provide valuable insights into the average age differences among weightlifters of different genders and the relationship between body weight and weight lifted. The findings of this study may have implications for weightlifting training programs, talent identification, and overall understanding of the sport.
+The average age of weightlifters can offer insights into the age-related performance variations and potential differences between genders. By examining the relationship between body weight and weight lifted, we can understand the impact of body composition on weightlifting ability. This information can guide training programs and provide valuable knowledge for weightlifters striving to optimize their performance.
+
+In this study, we analyze a dataset consisting of information from 201 weightlifters, including their gender, body weight, age, and maximum weight lifted. The dataset represents a random sample, and although it is simulated rather than based on real data, it allows us to explore the research questions at hand. Through hypothesis testing and linear regression analysis, we aim to provide insights into the average age differences between female and male weightlifters and the relationship between body weight and weight lifted, accounting for gender as a potential factor.
+
+By addressing these research questions, we hope to enhance our understanding of the factors influencing weightlifting performance and contribute to the existing body of knowledge in the field.
+
 </p>
+
+\newpage
+
+# Methods
+
+### Experimental Design:
+
+<p>For this research, a cross-sectional study design was chosen to examine the relationship between gender, age, body weight, and weight lifted among weightlifters. This design allows for the collection of data from a single point in time, providing a snapshot of the variables of interest.</p>
+
+### Subject Selection:
+
+<p>The dataset used in this study consists of a random sample of 201 weightlifters. The subjects were not selected based on any specific criteria but were included to represent a diverse range of weightlifters. The dataset includes both female and male weightlifters.</p>
+
+### Variables Measured:
+
+<p>
+
+The following variables were recorded for each subject:
+
+
+
+1. ID: Subject ID to uniquely identify each weightlifter
+
+2. Gender: Categorical variable indicating the gender of the weightlifter (female or male)
+
+3. Bodyweight: Numeric variable representing the weight of the weightlifter
+
+4. Age: Numeric variable indicating the age of the weightlifter in years
+
+5. Weightlifted: Numeric variable representing the maximum weight lifted by the weightlifter in an unspecified exercise
+
+
+</p>
+
+### Data Collection and Management:
+
+<p>The data were collected through a simulated process and provided in an Excel file format. The dataset was imported into R using the readxl package to facilitate further analysis. Data cleaning and formatting steps were undertaken to ensure the accuracy and consistency of the dataset. Any missing or erroneous values were addressed appropriately.</p>
+
+### Data Analysis:
+
+<p>
+
+The statistical analysis was performed using R, a programming language and software environment for statistical computing and graphics. The R Markdown framework was used to create a reproducible analysis document that integrates code, text, and results.
+
+To address the research questions, several statistical methods were employed. For the comparison of average age between female and male weightlifters, a two-sample t-test was conducted. Assumptions of normality and equal variances were assessed through visual inspection of boxplots and the Levene's test.
+
+To examine the relationship between body weight and weight lifted, considering gender as a factor, linear regression analysis was performed. Diagnostic plots, such as the residuals vs. fitted values plot and normal Q-Q plot, were examined to evaluate the assumptions of linear regression.
+
+The statistical package "car" was utilized for conducting the Levene's test, while the "ggplot2" package was employed for data visualization, including the creation of boxplots and scatter plots.
+
+</p>
+
+<p>Overall, these methods were chosen to ensure the appropriate analysis of the data and provide accurate answers to the research questions posed in this study.</p>
+
+\newpage
+
+# Results 1 --- Preliminary Data Exploration
+
+<p>To provide a comprehensive understanding of the dataset and its variables, we conducted preliminary data exploration. This involved generating graphs to visualize the frequency distributions of the variables, as well as comparative and bivariate relationships. In addition, we included brief numerical summaries in a table, along with accompanying comments to summarize the main features of the graph and provide insights into the data.</p>
+
+<p> First let us import the dataset in RStudio</p>
+
+```{r import_dataset, echo = TRUE, eval = TRUE}
+dat <- read.csv("./data/dataset.csv", header = TRUE)
+```
+
+Now let us have a look at first few rows of the dataset
+```{r, echo = FALSE, eval = TRUE}
+head(dat)
+```
+
+### Frequency Distributions:
+
+1. Gender:
+    + Bar Chat:
+
+```{r, echo=FALSE,eval=TRUE, warning=FALSE, message=FALSE}
+gender <- table(dat$gender)
+barplot(gender, space=0.05,
+        main = "Gender plot",
+        xlab = "Gender", 
+        ylab = "Count",
+        ylim=c(0,120)
+        )
+gender
+```
+
+
+2. Body Weight:
+    + Histogram:
+```{r, echo=FALSE,eval=TRUE, message=FALSE}
+hist(dat$bodyweight,breaks=4, ylim=c(0,100), xlab = "Body weight", ylab = "Frequency", main = "Overall Weight of sample population")
+```
+
+**Comment:**
+
+The histogram illustrates the distribution of body weights among weightlifters. The data is divided into four intervals: 60-80, 80-100, 100-120, and 120-140 units. The histogram shows that approximately 30 weightlifters have body weights between 60 and 80 units, around 70 weightlifters fall within the range of 80 to 100 units, approximately 90 weightlifters have body weights between 100 and 120 units, and only around 10 weightlifters have body weights between 120 and 140 units. The distribution appears to be slightly right-skewed, with the majority of weightlifters concentrated in the 80-100 and 100-120 unit intervals.
+
+3. Gender <> Weight Lifted
+    + Boxplot:
+```{r, echo=FALSE,eval=TRUE,message=FALSE, warning=FALSE}
+boxplot(weightlifted ~ gender, data = dat, xlab = "Gender", ylab = "Weight Lifted", main = "Boxplot of Weight Lifted by Gender")
+```
+**Comment:** 
+
+The boxplot of weight lifted by gender reveals distinct differences between male and female weightlifters. The median weight lifted for female weightlifters is around 120, while for male weightlifters, it is approximately 180. This substantial difference suggests that, on average, male weightlifters lift significantly heavier weights compared to their female counterparts.
+
+Regarding the dispersion, both male and female weightlifters show relatively low variability as indicated by the boxplot's narrow width. It suggests that the majority of weightlifters, regardless of gender, have weights lifted that are relatively close to the median.
+
+In the case of female weightlifters, the boxplot indicates an equal distribution of data points above and below the median, demonstrating a symmetrical distribution within the interquartile range. On the other hand, the boxplot for male weightlifters appears to be slightly right-skewed, indicating that some weightlifters lifted exceptionally heavy weights, possibly due to measurement errors or outliers.
+
+These observations highlight the significant differences in weightlifting performance between male and female weightlifters, with males generally lifting higher weights. Additionally, the boxplot provides insights into the dispersion and distribution characteristics of weight lifted for each gender.
+
+3. Age <> Weight Lifted
+    + Boxplot:
+    
+```{r,echo=FALSE,eval=TRUE,message=FALSE, warning=FALSE}
+# Create separate boxplots for age and weight lifted
+par(mfrow = c(1, 2))
+
+# Boxplot of age
+boxplot(dat$age, xlab = "Age", ylab = "Years", main = "Boxplot of Age")
+
+# Boxplot of weight lifted
+boxplot(dat$weightlifted, xlab = "Weight Lifted", ylab = "Units", main = "Boxplot of Weight Lifted")
+```
+**Comment:**
+
+The boxplot of age reveals that the median age of weightlifters is between 25 and 30 years. The minimum age falls between 15-20 years, while the maximum age reaches around 40 years. Additionally, there are two outliers—one at 15 years and the other at 45 years—indicating weightlifters who are significantly younger or older compared to the majority of the sample. The spread of data points is symmetrically distributed above and below the median, suggesting no apparent skew in the age distribution.
+
+In contrast, the boxplot of weight lifted shows a right-skewed distribution. The median weight lifted is approximately between 120-130 units. The absence of outliers in the boxplot indicates that there are no extreme values for weight lifted. This suggests that weightlifters generally fall within a certain range of weight lifted, with no exceptionally high or low values.
+
+These observations highlight the distribution characteristics of age and weight lifted among weightlifters. The age distribution shows no skewness and exhibits a symmetrical spread of data, while the weight lifted distribution is right-skewed, indicating a concentration of weightlifted values towards the lower end with no outliers.
