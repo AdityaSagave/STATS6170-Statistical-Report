@@ -128,9 +128,14 @@ barplot(gender, space=0.05,
         ylab = "Count",
         ylim=c(0,120)
         )
-gender
 ```
 
+|Gender|Total Number|
+|:-|:-:|
+|Female|102|
+|Male|99|
+
+---
 
 2. Body Weight:
     + Histogram:
@@ -141,6 +146,8 @@ hist(dat$bodyweight,breaks=4, ylim=c(0,100), xlab = "Body weight", ylab = "Frequ
 **Comment:**
 
 The histogram illustrates the distribution of body weights among weightlifters. The data is divided into four intervals: 60-80, 80-100, 100-120, and 120-140 units. The histogram shows that approximately 30 weightlifters have body weights between 60 and 80 units, around 70 weightlifters fall within the range of 80 to 100 units, approximately 90 weightlifters have body weights between 100 and 120 units, and only around 10 weightlifters have body weights between 120 and 140 units. The distribution appears to be slightly right-skewed, with the majority of weightlifters concentrated in the 80-100 and 100-120 unit intervals.
+
+---
 
 3. Gender <> Weight Lifted
     + Boxplot:
@@ -157,7 +164,9 @@ In the case of female weightlifters, the boxplot indicates an equal distribution
 
 These observations highlight the significant differences in weightlifting performance between male and female weightlifters, with males generally lifting higher weights. Additionally, the boxplot provides insights into the dispersion and distribution characteristics of weight lifted for each gender.
 
-3. Age <> Weight Lifted
+---
+
+4. Age <> Weight Lifted
     + Boxplot:
     
 ```{r,echo=FALSE,eval=TRUE,message=FALSE, warning=FALSE}
@@ -177,3 +186,98 @@ The boxplot of age reveals that the median age of weightlifters is between 25 an
 In contrast, the boxplot of weight lifted shows a right-skewed distribution. The median weight lifted is approximately between 120-130 units. The absence of outliers in the boxplot indicates that there are no extreme values for weight lifted. This suggests that weightlifters generally fall within a certain range of weight lifted, with no exceptionally high or low values.
 
 These observations highlight the distribution characteristics of age and weight lifted among weightlifters. The age distribution shows no skewness and exhibits a symmetrical spread of data, while the weight lifted distribution is right-skewed, indicating a concentration of weightlifted values towards the lower end with no outliers.
+
+---
+
+# Results 2 — Analyses
+
+In this section, we present the outcomes of the analyses conducted to address the research questions. We incorporate statistical models and test statistics, along with their corresponding p-values, to provide relevant insights. We also evaluate the extent to which the assumptions of the models or tests have been satisfied and discuss any discrepancies in the data, such as outliers, and how they were handled.
+
+**Research Question 1:** 
+
+_Is there any difference in the average age of female and male weightlifters?_
+
+The null hypothesis for Research Question 1 would be:
+"There is no difference in the average age of female and male weightlifters."
+
+Symbolically, this can be represented as:
+$H_0$ : $\mu_{female} = \mu_{male}$
+
+The alternative hypothesis would be that there is a difference in the age of female weightlifters and male weightlifters.
+
+Symbolically, this can be represented as:
+$H_1$ : $\mu_{female} \neq \mu_{male}$
+
+```{r, echo=FALSE,eval=TRUE,warning=FALSE,message=FALSE}
+
+# Create a dataframe for female weightlifters
+ageFemale <- dat[dat$gender == "female", c("age")]
+
+# Create a dataframe for male weightlifters
+ageMale <- dat[dat$gender == "male", c("age")]
+
+summary(ageFemale)
+summary(ageMale)
+```
+
+Summary of the age of female and male weightlifters 
+
+|Gender|Min.|1st Qu.|Median|Mean $\mu$|3rd Qu.|Max.|
+|:-|:-|:-|:-|:-|:-|:-|
+|Female|18.04|25.46|27.66|28.37|31.10|44.67|
+|Male|14.93|23.85|28.27|27.58|31.32|39.75|
+
+Let's have a look at total number ($n$), mean ($\bar{y}$) and standard deviation ($s$)
+
+```{r,echo=FALSE,eval=TRUE}
+n_female <- length(ageFemale)
+sd_age_female <- sd(ageFemale)
+mean_age_female <- mean(ageFemale)
+
+n_male <- length(ageMale)
+sd_age_male <- sd(ageMale)
+mean_age_male <- mean(ageMale)
+
+```
+
+|Gender|total number ($n$)|mean ($\bar{y}$)|standard deviation ($s$)|
+|:-|:-|:-|:-|
+|Female|102|28.37157|4.947449|
+|Male|99|27.58374|5.173757|
+
+Considering the sample size of our data, which is greater than 25, we can invoke the Central Limit Theorem (CLT). The CLT states that when the sample size is large enough, the sampling distribution of the sample mean, denoted as $\bar{y}$, will be approximately normally distributed, regardless of the shape of the underlying population distribution. In our case, as the sample size is greater than 25, we can assume that the distribution of the sample mean of age will be approximately normal.
+
+Since the population standard deviation, σ, is unknown, we utilize the t-distribution for the test statistic. The t-distribution is a suitable choice when dealing with small sample sizes or when the population standard deviation is unknown. By utilizing the t-distribution, we account for the uncertainty associated with estimating the population standard deviation based on the sample.
+
+By acknowledging the CLT and utilizing the t-distribution, we adhere to the appropriate statistical principles and ensure the validity of our analysis in comparing the average age between female and male weightlifters.
+
+
+Let's do a t-test on age and gender by Female and Male. Using the t.test() method.
+
+**Code:**
+
+```{r}
+# Perform the t-test
+t_testResult <- t.test(age ~ gender, data = dat, var.equal = TRUE)
+```
+
+**Results:**
+
+```{r, echo=FALSE}
+t_testResult
+```
+
+||t|df|p-value|
+|:-|:-|:-|:-|
+|Value|1.1035|199|0.2711|
+
+Based on the t-test results, the analysis comparing the average age between female and male weightlifters yielded the following findings:
+
+The t-test statistic was calculated to be 1.1035, with degrees of freedom (df) equal to 199. The corresponding p-value obtained from the test was 0.2711. This p-value represents the probability of observing a difference in average age as extreme as the one observed, assuming the null hypothesis is true.
+
+Since the p-value (0.2711) is greater than the chosen significance level (e.g., 0.05), we do not have sufficient evidence to reject the null hypothesis. Consequently, we cannot conclude that there is a statistically significant difference in the average age between female and male weightlifters.
+
+Cross checking the results from t-test manually:
+
+
+
