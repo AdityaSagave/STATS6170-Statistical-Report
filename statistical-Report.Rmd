@@ -1,0 +1,34 @@
+---
+title: "STATS6170-Statistical-Report"
+author: "Aditya Sagave"
+date: "`r Sys.Date()`"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{css, echo=FALSE}
+h1{text-align: center;}
+p{text-align: justify;}
+```
+
+<h1>Abstract</h1>
+
+<p>This statistical report analyzes a dataset comprising information from a random sample of 201 weightlifters. The variables recorded for each subject include their gender, body weight, age, and the maximum weight lifted during an unspecified exercise. The report aims to address two research questions: (a) Is there any difference in the average age of female and male weightlifters? and (b) What is the relation between the body weight of weightlifters and the weight lifted? The data have been imported into R, and various statistical analyses, including hypothesis tests and linear regression, have been conducted. The report provides insights into the average age differences between genders and investigates the relationship between body weight and weight lifted while considering the role of gender.</p>
+
+\newpage
+
+<h1>Introduction</h1>
+<p>Weightlifting is a popular sport that requires individuals to showcase their strength and power. Understanding the factors that influence weightlifting performance, such as age and body weight, is crucial for athletes, trainers, and researchers. In this report, we analyze a dataset collected from a sample of weightlifters, aiming to answer two key research questions.
+
+The first research question focuses on determining if there is any difference in the average age between female and male weightlifters. Age plays a vital role in athletic performance, and it is important to explore potential gender differences in this aspect. We will assess the assumption of normality and equality of variances between genders before conducting a two-sample t-test to compare the average ages.
+
+The second research question examines the relationship between body weight and the weight lifted by weightlifters. Body weight is often considered a crucial factor in weightlifting performance, and we will investigate whether there is a linear association between body weight and weight lifted. Additionally, we will consider the influence of gender in this relationship. Depending on the findings, we may need to perform separate regression analyses for female and male weightlifters.
+
+By addressing these research questions, we aim to provide valuable insights into the average age differences among weightlifters of different genders and the relationship between body weight and weight lifted. The findings of this study may have implications for weightlifting training programs, talent identification, and overall understanding of the sport.
+</p>
