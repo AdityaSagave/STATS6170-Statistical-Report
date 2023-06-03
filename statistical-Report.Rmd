@@ -3,9 +3,9 @@ title: "STATS6170-Statistical-Report"
 author: "Aditya Sagave"
 date: "`r Sys.Date()`"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -193,7 +193,7 @@ These observations highlight the distribution characteristics of age and weight 
 
 In this section, we present the outcomes of the analyses conducted to address the research questions. We incorporate statistical models and test statistics, along with their corresponding p-values, to provide relevant insights. We also evaluate the extent to which the assumptions of the models or tests have been satisfied and discuss any discrepancies in the data, such as outliers, and how they were handled.
 
-**Research Question 1:** 
+### Research Question 1: 
 
 _Is there any difference in the average age of female and male weightlifters?_
 
@@ -247,7 +247,7 @@ mean_age_male <- mean(ageMale)
 
 Considering the sample size of our data, which is greater than 25, we can invoke the Central Limit Theorem (CLT). The CLT states that when the sample size is large enough, the sampling distribution of the sample mean, denoted as $\bar{y}$, will be approximately normally distributed, regardless of the shape of the underlying population distribution. In our case, as the sample size is greater than 25, we can assume that the distribution of the sample mean of age will be approximately normal.
 
-Since the population standard deviation, σ, is unknown, we utilize the t-distribution for the test statistic. The t-distribution is a suitable choice when dealing with small sample sizes or when the population standard deviation is unknown. By utilizing the t-distribution, we account for the uncertainty associated with estimating the population standard deviation based on the sample.
+Since the population standard deviation, $\sigma$, is unknown, we utilize the t-distribution for the test statistic. The t-distribution is a suitable choice when dealing with small sample sizes or when the population standard deviation is unknown. By utilizing the t-distribution, we account for the uncertainty associated with estimating the population standard deviation based on the sample.
 
 By acknowledging the CLT and utilizing the t-distribution, we adhere to the appropriate statistical principles and ensure the validity of our analysis in comparing the average age between female and male weightlifters.
 
@@ -279,5 +279,338 @@ Since the p-value (0.2711) is greater than the chosen significance level (e.g., 
 
 Cross checking the results from t-test manually:
 
+**Consider:**
+
+$\bar{y_1} = \bar{y}_{female} = 28.37157$
+
+$\bar{y_2} = \bar{y}_{male} = 27.58374$
+
+$n_1 = n_{female}$
+
+$n_2 = n_{male}$
+
+$s_1 = s_{female}$
+
+$s_2 = s_{male}$
+
+**Calculations:**
+
+$s_p -> \text{Standard error}$
+
+$s_p = \sqrt{\frac{(n_1-1)s_1^2+(n_2-1)s_2^2}{n_1+n_2-2}}$
+$s_p = \sqrt{\frac{(102-1)4.947449^2+(99-1)5.173757^2}{102+99-2}}$
+$s_p = \sqrt{25.72824}$
+$s_p = 5.07230$
+
+$t = \frac{\bar{y_1}-\bar{y_2}}{s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}}$
+$t = \frac{28.37157-27.58374}{5.07230\sqrt{\frac{1}{102}+\frac{1}{99}}}$
+$t = \frac{28.37157-27.58374}{5.07230*0.14108}$
+$t = \frac{0.78783}{0.715624}$
+$t = 1.100899$
+
+$p = 0.2723$
+
+Based on the t-test results you obtained for Research Question 1, where the t-value is 1.100899 and the p-value is 0.2723, with a significance level of 0.05, we can interpret the results as follows:
+
+Since the p-value (0.2723) is greater than the chosen significance level of 0.05, we do not have sufficient evidence to reject the null hypothesis. Therefore, we cannot conclude that there is a statistically significant difference in the average age between female and male weightlifters at the 0.05 significance level.
+
+The t-value of 1.100899 indicates the magnitude and direction of the difference between the average age of female and male weightlifters. Since the t-value is positive, it suggests that the average age of female weightlifters tends to be slightly higher than that of male weightlifters, although this difference is not statistically significant.
+
+### Research Question 2:
+
+_What is the relation between the body weight of weightlifters and the weight lifted?_
+
+```{r, echo=FALSE,eval=TRUE}
+# Assuming your dataset is named 'weightlifters' and the variables are 'bodyweight' and 'weightlifted'
+summary(dat$weightlifted)
+plot(dat$bodyweight, dat$weightlifted, 
+     xlab = "Body Weight", ylab = "Weight Lifted",
+     main = "Scatter Plot of Body Weight vs. Weight Lifted")
+```
+
+The scatter plot reveals the presence of two distinct groups. The first group, represented by a range of body weights between 60 and 110 on the x-axis, displays a linear relationship with weight lifted, which increases from approximately 100 to 130 on the y-axis. This group demonstrates a positive correlation between body weight and weight lifted."
+
+"The second group, characterized by body weights ranging from 95 to 135 on the x-axis, exhibits a strong linear relationship with weight lifted. Within this group, weight lifted demonstrates a significant increase from around 160 to 190 on the y-axis. The positive correlation between body weight and weight lifted in this group is more pronounced.
+
+Since the scatter plot show to distinctive groups(Female, Male) which follow different linear direction. It is best to split the whole dataset into two i.e Female and Male.
+
+```{r, echo=FALSE}
+# Subset the dataset for females
+female_data <- subset(dat, gender == "female")
+
+# Subset the dataset for males
+male_data <- subset(dat, gender == "male")
+```
+
+**Code:**
+
+```{r}
+
+# Linear regression for females
+female_model <- lm(weightlifted ~ bodyweight, data = female_data)
+
+# Linear regression for males
+male_model <- lm(weightlifted ~ bodyweight, data = male_data)
+```
 
 
+**Results:**
+```{r, echo=FALSE}
+summary(female_model)
+summary(male_model)
+```
+
+#### Female subset:
+
+```{r, echo=FALSE}
+plot(female_data$bodyweight, female_data$weightlifted, 
+     xlab = "Body Weight", ylab = "Weight Lifted",
+     main = "Scatter Plot of Female Body Weight vs. Weight Lifted")
+```
+
+```{r, echo=FALSE}
+female_summary <- summary(female_model)
+
+# Extracting the required values
+multiple_r_female <- sqrt(female_summary$r.squared)
+r_squared_female <- female_summary$r.squared
+adjusted_r_squared_female <- female_summary$adj.r.squared
+standard_error_female <- sqrt(mean(female_summary$residuals^2))
+observations_female <- female_summary$df[2] + 2
+
+# ANOVA table for female subset
+anova_table_female <- anova(female_model)
+```
+
+##### Summary Output:
+
+|Regression Statistics|
+|:-|:-|
+|Multiple R|`r multiple_r_female`|
+|R Square|`r r_squared_female`|
+|Adjusted R Square|`r adjusted_r_squared_female`|
+|Standard Error |`r standard_error_female`|
+|Observations|`r observations_female`|
+
+
+```{r, echo=FALSE}
+# accessing the values from anova table for anova table
+p_value <- anova_table_female$`Pr(>F)`[1]
+f_value <- anova_table_female$`F value`[1]
+mean_sq <- anova_table_female$`Mean Sq`[1]
+mean_sq_residual <- anova_table_female$`Mean Sq`[2]
+sum_sq <- anova_table_female$`Sum Sq`[1]
+sum_sq_residual <- anova_table_female$`Sum Sq`[2]
+df <- anova_table_female$`Df`[1]
+df_residual <- anova_table_female$`Df`[2]
+```
+|ANOVA|
+|-:|-:|-:|-:|-:|-:|
+||df|SS|MS|F|Significance F|
+|Regression (bodyweight) |`r df`|`r sum_sq`|`r mean_sq`|`r f_value`|`r p_value`|
+|Residual |`r df_residual`|`r sum_sq_residual`|`r mean_sq_residual`|||
+|Total|`r df+df_residual`|`r sum_sq + sum_sq_residual`||||
+
+
+```{r, echo=FALSE}
+
+# Extract coefficients and related information from the summary
+
+Intercept_1 <- female_summary$coefficients[1,1]
+Intercept_2 <- female_summary$coefficients[1,2]
+Intercept_3 <- female_summary$coefficients[1,3]
+Intercept_4 <- female_summary$coefficients[1,4]
+Intercept_5 <- Intercept_1 - (1.96 * Intercept_2)
+Intercept_6 <- Intercept_1 + (1.96 * Intercept_2)
+
+bodyweight_1 <- female_summary$coefficients[2,1]
+bodyweight_2 <- female_summary$coefficients[2,2]
+bodyweight_3 <- female_summary$coefficients[2,3]
+bodyweight_4 <- female_summary$coefficients[2,4]
+bodyweight_5 <- bodyweight_1 - (1.96 * bodyweight_2)
+bodyweight_6 <- bodyweight_1 + (1.96 * bodyweight_2)
+
+```
+
+**Equation for the Least Squares Regression line for Female weight lifters:**
+
+$$\hat{\text{weight-liffted}} = 97.4969367 + (0.7211488*BodyWeight)$$
+
+||Coefficients|Standard Error|t Stat|P-value|Lower 95% |Upper 95%|
+|-:|-:|-:|-:|-:|-:|-:|
+|Intercept|`r Intercept_1`|`r Intercept_2`|`r Intercept_3`|`r Intercept_4`|`r Intercept_5`|`r Intercept_6`|
+|BodyWeight|`r bodyweight_1`|`r bodyweight_2`|`r bodyweight_3`|`r bodyweight_4`|`r bodyweight_5`|`r bodyweight_6`|
+
+Outline of the HATPDC framework for the regression analysis of the female subset, incorporating the information provided by Summary Output:
+
+H - Hypothesis tests:
+
+* Null hypothesis (H0): There is no relationship between body weight and weight lifted for female weightlifters.
+
+* Alternative hypothesis (HA): There is a relationship between body weight and weight lifted for female weightlifters.
+
+A - Assumptions:
+
+* Linearity: There is a linear relationship between body weight and weight lifted for female weightlifters.
+
+* Independence of errors: The observations of weightlifters within the female subset are independent of each other.
+
+* Normality of residuals: The residuals of the regression model for the female subset follow a normal distribution.
+
+* Homoscedasticity: The variance of the residuals is constant across different levels of body weight for the female subset.
+
+T - t-value and df:
+
+* The t-value for the body weight coefficient is 11.97.
+
+* The degrees of freedom (df) for the t-test is 100.
+
+P - p-value:
+
+* The p-value for the body weight coefficient is < 2e-16.
+
+D - Decision on hypothesis:
+
+* The p-value (< 2e-16) is less than the chosen significance level (e.g., 0.05). Therefore, we reject the null hypothesis.
+
+C - Conclusion:
+
+* The regression analysis of the female subset indicates a statistically significant relationship between body weight and weight lifted (p < 0.05). As body weight increases, weight lifted tends to increase for female weightlifters. The coefficient estimate of 0.35583 suggests that, on average, for every one-unit increase in body weight, weight lifted increases by approximately 0.356 units. The regression model explains about 58.9% of the variance in weight lifted among female weightlifters.
+
+
+#### Male subset:
+
+```{r, echo=FALSE}
+plot(male_data$bodyweight, male_data$weightlifted, 
+     xlab = "Body Weight", ylab = "Weight Lifted",
+     main = "Scatter Plot of Male Body Weight vs. Weight Lifted")
+```
+
+```{r, echo=FALSE}
+male_summary <- summary(male_model)
+
+# Extracting the required values
+multiple_r_male <- sqrt(male_summary$r.squared)
+r_squared_male <- male_summary$r.squared
+adjusted_r_squared_male <- male_summary$adj.r.squared
+standard_error_male <- sqrt(mean(male_summary$residuals^2))
+observations_male <- male_summary$df[2] + 2
+
+# ANOVA table for female subset
+anova_table_male <- anova(female_model)
+```
+
+##### Summary Output:
+
+|Regression Statistics|
+|:-|:-|
+|Multiple R|`r multiple_r_male`|
+|R Square|`r r_squared_male`|
+|Adjusted R Square|`r adjusted_r_squared_male`|
+|Standard Error |`r standard_error_male`|
+|Observations|`r observations_male`|
+
+
+```{r, echo=FALSE}
+# accessing the values from anova table for anova table
+p_value <- anova_table_male$`Pr(>F)`[1]
+f_value <- anova_table_male$`F value`[1]
+mean_sq <- anova_table_male$`Mean Sq`[1]
+mean_sq_residual <- anova_table_male$`Mean Sq`[2]
+sum_sq <- anova_table_male$`Sum Sq`[1]
+sum_sq_residual <- anova_table_male$`Sum Sq`[2]
+df <- anova_table_male$`Df`[1]
+df_residual <- anova_table_male$`Df`[2]
+```
+|ANOVA|
+|-:|-:|-:|-:|-:|-:|
+||df|SS|MS|F|Significance F|
+|Regression (bodyweight) |`r df`|`r sum_sq`|`r mean_sq`|`r f_value`|`r p_value`|
+|Residual |`r df_residual`|`r sum_sq_residual`|`r mean_sq_residual`|||
+|Total|`r df+df_residual`|`r sum_sq + sum_sq_residual`||||
+
+
+```{r, echo=FALSE}
+
+# Extract coefficients and related information from the summary
+
+Intercept_1 <- male_summary$coefficients[1,1]
+Intercept_2 <- male_summary$coefficients[1,2]
+Intercept_3 <- male_summary$coefficients[1,3]
+Intercept_4 <- male_summary$coefficients[1,4]
+Intercept_5 <- Intercept_1 - (1.96 * Intercept_2)
+Intercept_6 <- Intercept_1 + (1.96 * Intercept_2)
+
+bodyweight_1 <- male_summary$coefficients[2,1]
+bodyweight_2 <- male_summary$coefficients[2,2]
+bodyweight_3 <- male_summary$coefficients[2,3]
+bodyweight_4 <- male_summary$coefficients[2,4]
+bodyweight_5 <- bodyweight_1 - (1.96 * bodyweight_2)
+bodyweight_6 <- bodyweight_1 + (1.96 * bodyweight_2)
+
+```
+
+
+||Coefficients|Standard Error|t Stat|P-value|Lower 95% |Upper 95%|
+|-:|-:|-:|-:|-:|-:|-:|
+|Intercept|`r Intercept_1`|`r Intercept_2`|`r Intercept_3`|`r Intercept_4`|`r Intercept_5`|`r Intercept_6`|
+|BodyWeight|`r bodyweight_1`|`r bodyweight_2`|`r bodyweight_3`|`r bodyweight_4`|`r bodyweight_5`|`r bodyweight_6`|
+
+
+**Equation for the Least Squares Regression line for Male weight lifters:**
+
+$$\hat{\text{weight-liffted}} = 97.4969367 + (0.7211488*BodyWeight)$$
+
+Outline of the HATPDC framework for the regression analysis of the male subset, incorporating the information provided by Summary Output:
+
+H - Hypothesis tests:
+
+* Null hypothesis (H0): There is no relationship between body weight and weight lifted for male weightlifters.
+
+* Alternative hypothesis (HA): There is a relationship between body weight and weight lifted for male weightlifters.
+
+A - Assumptions:
+
+* Linearity: There is a linear relationship between body weight and weight lifted for male weightlifters.
+
+* Independence of errors: The observations of weightlifters within the male subset are independent of each other.
+
+* Normality of residuals: The residuals of the regression model for the male subset follow a normal distribution.
+
+* Homoscedasticity: The variance of the residuals is constant across different levels of body weight for the male subset.
+
+T - t-value and df:
+
+* The t-value for the body weight coefficient is 15.66.
+
+* The degrees of freedom (df) for the t-test is 97.
+
+P - p-value:
+
+* The p-value for the body weight coefficient is < 2e-16.
+
+D - Decision on hypothesis:
+
+* The p-value (< 2e-16) is less than the chosen significance level (e.g., 0.05). Therefore, we reject the null hypothesis.
+
+C - Conclusion:
+
+* The regression analysis of the male subset indicates a statistically significant relationship between body weight and weight lifted (p < 0.05). As body weight increases, weight lifted tends to increase for male weightlifters. The coefficient estimate of 0.72115 suggests that, on average, for every one-unit increase in body weight, weight lifted increases by approximately 0.721 units. The regression model explains about 71.7% of the variance in weight lifted among male weightlifters.
+
+
+#### Comparing both genders:
+
+```{r, echo=FALSE, eval=TRUE}
+
+par(mfrow = c(1, 2))
+# Create Scatter Plot for Female Subset
+plot(female_data$bodyweight, female_data$weightlifted, col = "blue", xlab = "Body Weight", ylab = "Weight Lifted", main = "Female Weightlifters")
+abline(female_model, col = "red")  # Add regression line
+legend("bottomright", legend = c("Regression Line"), col = "red", lty = 1, cex = 0.7)
+
+# Create Scatter Plot for Male Subset
+plot(male_data$bodyweight, male_data$weightlifted, col = "green", xlab = "Body Weight", ylab = "Weight Lifted", main = "Male Weightlifters")
+abline(male_model, col = "red")  # Add regression line
+legend("bottomright", legend = c("Regression Line"), col = "red", lty = 1, cex = 0.7)
+
+```
