@@ -1,5 +1,5 @@
 ---
-title: "STATS6170-Statistical-Report"
+title: "Gender Differences in Body Weight and Weightlifting Performance: A Comparative Analysis"
 author: "Aditya Sagave"
 date: "`r Sys.Date()`"
 output:
@@ -10,7 +10,6 @@ output:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-library(ggplot2)
 library(corrplot)
 library(car)
 library(stats)
@@ -33,70 +32,48 @@ p{text-align: justify;}
 
 # Introduction
 
-<p>
+Weightlifting is a popular sport that requires strength, power, and precision. Understanding the factors that contribute to weightlifting performance is of great interest to athletes, trainers, and researchers. In this statistical report, we aim to investigate two research questions related to weightlifters' characteristics and their performance:
 
-Weightlifting is a popular sport and physical activity that involves lifting heavy weights to develop strength and muscle mass. Understanding the factors that contribute to weightlifting performance can provide valuable insights for athletes, trainers, and researchers. In this statistical report, we investigate two research questions related to weightlifters: (a) Is there any difference in the average age of female and male weightlifters? and (b) What is the relation between the body weight of weightlifters and the weight lifted?
+1. Is there any difference in the average age of female and male weightlifters?
+2. What is the relation between the body weight of weightlifters and the weight lifted?
 
-The average age of weightlifters can offer insights into the age-related performance variations and potential differences between genders. By examining the relationship between body weight and weight lifted, we can understand the impact of body composition on weightlifting ability. This information can guide training programs and provide valuable knowledge for weightlifters striving to optimize their performance.
+To address the first research question, we will examine if there is a significant difference in the average age between female and male weightlifters. This analysis will help us understand if age plays a role in weightlifting performance and if there are any gender-specific differences in age distribution within the weightlifting population.
 
-In this study, we analyze a dataset consisting of information from 201 weightlifters, including their gender, body weight, age, and maximum weight lifted. The dataset represents a random sample, and although it is simulated rather than based on real data, it allows us to explore the research questions at hand. Through hypothesis testing and linear regression analysis, we aim to provide insights into the average age differences between female and male weightlifters and the relationship between body weight and weight lifted, accounting for gender as a potential factor.
+For the second research question, we will explore the relationship between the body weight of weightlifters and the weight lifted. We will consider the role of gender and investigate whether there is a consistent relationship between body weight and weight lifted for both females and males. This analysis will provide insights into the impact of body weight on weightlifting performance and whether there are gender-specific variations in this relationship.
 
-By addressing these research questions, we hope to enhance our understanding of the factors influencing weightlifting performance and contribute to the existing body of knowledge in the field.
+The dataset used in this report consists of information on weightlifters' gender, body weight, age, and the maximum weight lifted. We will analyze this dataset using statistical methods learned in the unit to draw meaningful conclusions and provide valuable insights into weightlifting performance.
 
-</p>
+In the following sections, we will describe the methods used for data analysis, present the results of our analyses, and discuss the implications of our findings.
 
 \newpage
 
 # Methods
 
-### Experimental Design:
+The research questions in this report were addressed using the following methods:
 
-<p>For this research, a cross-sectional study design was chosen to examine the relationship between gender, age, body weight, and weight lifted among weightlifters. This design allows for the collection of data from a single point in time, providing a snapshot of the variables of interest.</p>
+### Data Collection and Description
 
-### Subject Selection:
+The dataset used in this analysis consists of information on weightlifters, including their gender, body weight, age, and the maximum weight lifted. The data were collected from a random sample of 201 weightlifters. Please refer to the "weightlifters.csv" file provided with this report for the complete dataset.
 
-<p>The dataset used in this study consists of a random sample of 201 weightlifters. The subjects were not selected based on any specific criteria but were included to represent a diverse range of weightlifters. The dataset includes both female and male weightlifters.</p>
+To gain an understanding of the dataset, we performed initial data exploration. This involved examining the structure of the dataset, checking for missing values or outliers, and calculating summary statistics. The distribution of variables was visualized using histograms, bar plots, and boxplots to identify any patterns or anomalies.
 
-### Variables Measured:
+### Research Question 1: Average Age Difference between Female and Male Weightlifters
 
-<p>
+To investigate the difference in the average age of female and male weightlifters, we performed a two-sample t-test. This test compares the means of the age variable for females and males, assuming that the samples are independent and follow approximately normal distributions with equal variances.
 
-The following variables were recorded for each subject:
+To check the assumptions of the t-test, we verified that the sample sizes were large enough for the Central Limit Theorem to apply, ensuring that the sampling distribution of the sample mean would be approximately normal. We also assessed the assumption of equal variances between the two groups.
 
+### Research Question 2: Relationship between Body Weight and Weight Lifted
 
+To study the relationship between body weight and weight lifted, we considered the role of gender. We examined if the relationship differed between females and males and whether separate analyses were necessary.
 
-1. ID: Subject ID to uniquely identify each weightlifter
+For both females and males, we performed simple linear regression analyses to model the relationship between body weight (independent variable) and weight lifted (dependent variable). We assessed the linearity assumption by inspecting scatter plots and checked other assumptions such as independence of errors, normality of residuals, and homoscedasticity.
 
-2. Gender: Categorical variable indicating the gender of the weightlifter (female or male)
+Additionally, we explored potential interactions between body weight and gender by including interaction terms in the regression models. This allowed us to assess whether the relationship between body weight and weight lifted differed significantly between females and males.
 
-3. Bodyweight: Numeric variable representing the weight of the weightlifter
+The statistical analyses were conducted using the R programming language. The built-in plotting functions in R, such as hist(), barplot(), and boxplot(), were used for data visualization. The lm() function in R was employed for regression analysis.
 
-4. Age: Numeric variable indicating the age of the weightlifter in years
-
-5. Weightlifted: Numeric variable representing the maximum weight lifted by the weightlifter in an unspecified exercise
-
-
-</p>
-
-### Data Collection and Management:
-
-<p>The data were collected through a simulated process and provided in an Excel file format. The dataset was imported into R using the readxl package to facilitate further analysis. Data cleaning and formatting steps were undertaken to ensure the accuracy and consistency of the dataset. Any missing or erroneous values were addressed appropriately.</p>
-
-### Data Analysis:
-
-<p>
-
-The statistical analysis was performed using R, a programming language and software environment for statistical computing and graphics. The R Markdown framework was used to create a reproducible analysis document that integrates code, text, and results.
-
-To address the research questions, several statistical methods were employed. For the comparison of average age between female and male weightlifters, a two-sample t-test was conducted. Assumptions of normality and equal variances were assessed through visual inspection of boxplots and the Levene's test.
-
-To examine the relationship between body weight and weight lifted, considering gender as a factor, linear regression analysis was performed. Diagnostic plots, such as the residuals vs. fitted values plot and normal Q-Q plot, were examined to evaluate the assumptions of linear regression.
-
-The statistical package "car" was utilized for conducting the Levene's test, while the "ggplot2" package was employed for data visualization, including the creation of boxplots and scatter plots.
-
-</p>
-
-<p>Overall, these methods were chosen to ensure the appropriate analysis of the data and provide accurate answers to the research questions posed in this study.</p>
+Please proceed to the next section for the presentation of the results obtained from the data analysis.
 
 \newpage
 
@@ -114,6 +91,8 @@ Now let us have a look at first few rows of the dataset
 ```{r, echo = FALSE, eval = TRUE}
 head(dat)
 ```
+
+\newpage
 
 ### Frequency Distributions:
 
@@ -135,10 +114,11 @@ barplot(gender, space=0.05,
 |Female|102|
 |Male|99|
 
----
+\newpage
 
 2. Body Weight:
     + Histogram:
+    
 ```{r, echo=FALSE,eval=TRUE, message=FALSE}
 hist(dat$bodyweight,breaks=4, ylim=c(0,100), xlab = "Body weight", ylab = "Frequency", main = "Overall Weight of sample population")
 ```
@@ -147,10 +127,11 @@ hist(dat$bodyweight,breaks=4, ylim=c(0,100), xlab = "Body weight", ylab = "Frequ
 
 The histogram illustrates the distribution of body weights among weightlifters. The data is divided into four intervals: 60-80, 80-100, 100-120, and 120-140 units. The histogram shows that approximately 30 weightlifters have body weights between 60 and 80 units, around 70 weightlifters fall within the range of 80 to 100 units, approximately 90 weightlifters have body weights between 100 and 120 units, and only around 10 weightlifters have body weights between 120 and 140 units. The distribution appears to be slightly right-skewed, with the majority of weightlifters concentrated in the 80-100 and 100-120 unit intervals.
 
----
+\newpage
 
 3. Gender <> Weight Lifted
     + Boxplot:
+    
 ```{r, echo=FALSE,eval=TRUE,message=FALSE, warning=FALSE}
 boxplot(weightlifted ~ gender, data = dat, xlab = "Gender", ylab = "Weight Lifted", main = "Boxplot of Weight Lifted by Gender")
 ```
@@ -164,7 +145,7 @@ In the case of female weightlifters, the boxplot indicates an equal distribution
 
 These observations highlight the significant differences in weightlifting performance between male and female weightlifters, with males generally lifting higher weights. Additionally, the boxplot provides insights into the dispersion and distribution characteristics of weight lifted for each gender.
 
----
+\newpage
 
 4. Age <> Weight Lifted
     + Boxplot:
@@ -187,7 +168,7 @@ In contrast, the boxplot of weight lifted shows a right-skewed distribution. The
 
 These observations highlight the distribution characteristics of age and weight lifted among weightlifters. The age distribution shows no skewness and exhibits a symmetrical spread of data, while the weight lifted distribution is right-skewed, indicating a concentration of weightlifted values towards the lower end with no outliers.
 
----
+\newpage
 
 # Results 2 — Analyses
 
@@ -242,8 +223,8 @@ mean_age_male <- mean(ageMale)
 
 |Gender|total number ($n$)|mean ($\bar{y}$)|standard deviation ($s$)|
 |:-|:-|:-|:-|
-|Female|102|28.37157|4.947449|
-|Male|99|27.58374|5.173757|
+|Female|102|28.37|4.95|
+|Male|99|27.58|5.17|
 
 Considering the sample size of our data, which is greater than 25, we can invoke the Central Limit Theorem (CLT). The CLT states that when the sample size is large enough, the sampling distribution of the sample mean, denoted as $\bar{y}$, will be approximately normally distributed, regardless of the shape of the underlying population distribution. In our case, as the sample size is greater than 25, we can assume that the distribution of the sample mean of age will be approximately normal.
 
@@ -251,6 +232,8 @@ Since the population standard deviation, $\sigma$, is unknown, we utilize the t-
 
 By acknowledging the CLT and utilizing the t-distribution, we adhere to the appropriate statistical principles and ensure the validity of our analysis in comparing the average age between female and male weightlifters.
 
+
+\newpage
 
 Let's do a t-test on age and gender by Female and Male. Using the t.test() method.
 
@@ -277,13 +260,15 @@ The t-test statistic was calculated to be 1.1035, with degrees of freedom (df) e
 
 Since the p-value (0.2711) is greater than the chosen significance level (e.g., 0.05), we do not have sufficient evidence to reject the null hypothesis. Consequently, we cannot conclude that there is a statistically significant difference in the average age between female and male weightlifters.
 
+\newpage
+
 Cross checking the results from t-test manually:
 
 **Consider:**
 
-$\bar{y_1} = \bar{y}_{female} = 28.37157$
+$\bar{y_1} = \bar{y}_{female} = 28.37$
 
-$\bar{y_2} = \bar{y}_{male} = 27.58374$
+$\bar{y_2} = \bar{y}_{male} = 27.58$
 
 $n_1 = n_{female}$
 
@@ -298,13 +283,13 @@ $s_2 = s_{male}$
 $s_p -> \text{Standard error}$
 
 $s_p = \sqrt{\frac{(n_1-1)s_1^2+(n_2-1)s_2^2}{n_1+n_2-2}}$
-$s_p = \sqrt{\frac{(102-1)4.947449^2+(99-1)5.173757^2}{102+99-2}}$
+$s_p = \sqrt{\frac{(102-1)4.95^2+(99-1)5.17^2}{102+99-2}}$
 $s_p = \sqrt{25.72824}$
 $s_p = 5.07230$
 
 $t = \frac{\bar{y_1}-\bar{y_2}}{s_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}}$
-$t = \frac{28.37157-27.58374}{5.07230\sqrt{\frac{1}{102}+\frac{1}{99}}}$
-$t = \frac{28.37157-27.58374}{5.07230*0.14108}$
+$t = \frac{28.37-27.58}{5.07230\sqrt{\frac{1}{102}+\frac{1}{99}}}$
+$t = \frac{28.37-27.58}{5.07230*0.14108}$
 $t = \frac{0.78783}{0.715624}$
 $t = 1.100899$
 
@@ -315,6 +300,9 @@ Based on the t-test results you obtained for Research Question 1, where the t-va
 Since the p-value (0.2723) is greater than the chosen significance level of 0.05, we do not have sufficient evidence to reject the null hypothesis. Therefore, we cannot conclude that there is a statistically significant difference in the average age between female and male weightlifters at the 0.05 significance level.
 
 The t-value of 1.100899 indicates the magnitude and direction of the difference between the average age of female and male weightlifters. Since the t-value is positive, it suggests that the average age of female weightlifters tends to be slightly higher than that of male weightlifters, although this difference is not statistically significant.
+
+
+\newpage
 
 ### Research Question 2:
 
@@ -342,6 +330,8 @@ female_data <- subset(dat, gender == "female")
 male_data <- subset(dat, gender == "male")
 ```
 
+\newpage
+
 **Code:**
 
 ```{r}
@@ -355,12 +345,22 @@ male_model <- lm(weightlifted ~ bodyweight, data = male_data)
 
 
 **Results:**
+
+1. **Female subset:**
 ```{r, echo=FALSE}
 summary(female_model)
+```
+
+2. **Male subset:**
+
+```{r, echo=FALSE}
 summary(male_model)
 ```
 
-#### Female subset:
+\newpage
+
+### Female subset:
+
 
 ```{r, echo=FALSE}
 plot(female_data$bodyweight, female_data$weightlifted, 
@@ -368,21 +368,22 @@ plot(female_data$bodyweight, female_data$weightlifted,
      main = "Scatter Plot of Female Body Weight vs. Weight Lifted")
 ```
 
+
 ```{r, echo=FALSE}
 female_summary <- summary(female_model)
 
 # Extracting the required values
-multiple_r_female <- sqrt(female_summary$r.squared)
-r_squared_female <- female_summary$r.squared
-adjusted_r_squared_female <- female_summary$adj.r.squared
-standard_error_female <- sqrt(mean(female_summary$residuals^2))
+multiple_r_female <- round(sqrt(female_summary$r.squared),2)
+r_squared_female <- round(female_summary$r.squared,2)
+adjusted_r_squared_female <- round(female_summary$adj.r.squared,2)
+standard_error_female <- round(sqrt(mean(female_summary$residuals^2)),2)
 observations_female <- female_summary$df[2] + 2
 
 # ANOVA table for female subset
 anova_table_female <- anova(female_model)
 ```
 
-##### Summary Output:
+##### **Summary Output:**
 
 |Regression Statistics|
 |:-|:-|
@@ -396,17 +397,18 @@ anova_table_female <- anova(female_model)
 ```{r, echo=FALSE}
 # accessing the values from anova table for anova table
 p_value <- anova_table_female$`Pr(>F)`[1]
-f_value <- anova_table_female$`F value`[1]
-mean_sq <- anova_table_female$`Mean Sq`[1]
-mean_sq_residual <- anova_table_female$`Mean Sq`[2]
-sum_sq <- anova_table_female$`Sum Sq`[1]
-sum_sq_residual <- anova_table_female$`Sum Sq`[2]
+f_value <- round(anova_table_female$`F value`[1],2)
+mean_sq <- round(anova_table_female$`Mean Sq`[1],2)
+mean_sq_residual <- round(anova_table_female$`Mean Sq`[2],2)
+sum_sq <- round(anova_table_female$`Sum Sq`[1],2)
+sum_sq_residual <- round(anova_table_female$`Sum Sq`[2],2)
 df <- anova_table_female$`Df`[1]
 df_residual <- anova_table_female$`Df`[2]
 ```
 |ANOVA|
 |-:|-:|-:|-:|-:|-:|
 ||df|SS|MS|F|Significance F|
+||||||||
 |Regression (bodyweight) |`r df`|`r sum_sq`|`r mean_sq`|`r f_value`|`r p_value`|
 |Residual |`r df_residual`|`r sum_sq_residual`|`r mean_sq_residual`|||
 |Total|`r df+df_residual`|`r sum_sq + sum_sq_residual`||||
@@ -416,30 +418,39 @@ df_residual <- anova_table_female$`Df`[2]
 
 # Extract coefficients and related information from the summary
 
-Intercept_1 <- female_summary$coefficients[1,1]
-Intercept_2 <- female_summary$coefficients[1,2]
-Intercept_3 <- female_summary$coefficients[1,3]
-Intercept_4 <- female_summary$coefficients[1,4]
-Intercept_5 <- Intercept_1 - (1.96 * Intercept_2)
-Intercept_6 <- Intercept_1 + (1.96 * Intercept_2)
+Intercept_1 <- round(female_summary$coefficients[1,1],2)
+Intercept_2 <- round(female_summary$coefficients[1,2],2)
+Intercept_3 <- round(female_summary$coefficients[1,3],2)
+Intercept_4 <- round(female_summary$coefficients[1,4],2)
+Intercept_5 <- round(Intercept_1 - (1.96 * Intercept_2),2)
+Intercept_6 <- round(Intercept_1 + (1.96 * Intercept_2),2)
 
-bodyweight_1 <- female_summary$coefficients[2,1]
-bodyweight_2 <- female_summary$coefficients[2,2]
-bodyweight_3 <- female_summary$coefficients[2,3]
-bodyweight_4 <- female_summary$coefficients[2,4]
-bodyweight_5 <- bodyweight_1 - (1.96 * bodyweight_2)
-bodyweight_6 <- bodyweight_1 + (1.96 * bodyweight_2)
+bodyweight_1 <- round(female_summary$coefficients[2,1],2)
+bodyweight_2 <- round(female_summary$coefficients[2,2],2)
+bodyweight_3 <- round(female_summary$coefficients[2,3],2)
+bodyweight_4 <- round(female_summary$coefficients[2,4],2)
+bodyweight_5 <- round(bodyweight_1 - (1.96 * bodyweight_2),2)
+bodyweight_6 <- round(bodyweight_1 + (1.96 * bodyweight_2),2)
 
 ```
 
-**Equation for the Least Squares Regression line for Female weight lifters:**
-
-$$\hat{\text{weight-liffted}} = 97.4969367 + (0.7211488*BodyWeight)$$
+\newpage
 
 ||Coefficients|Standard Error|t Stat|P-value|Lower 95% |Upper 95%|
 |-:|-:|-:|-:|-:|-:|-:|
 |Intercept|`r Intercept_1`|`r Intercept_2`|`r Intercept_3`|`r Intercept_4`|`r Intercept_5`|`r Intercept_6`|
 |BodyWeight|`r bodyweight_1`|`r bodyweight_2`|`r bodyweight_3`|`r bodyweight_4`|`r bodyweight_5`|`r bodyweight_6`|
+
+
+**Residual vs Fitted values:**
+
+```{r, echo=FALSE}
+plot(female_model, which = 1)
+```
+
+**Equation for the Least Squares Regression line for Female weight lifters:**
+
+$$\hat{\text{weight-liffted}} = 84.74 + (0.36*BodyWeight)$$
 
 Outline of the HATPDC framework for the regression analysis of the female subset, incorporating the information provided by Summary Output:
 
@@ -477,8 +488,9 @@ C - Conclusion:
 
 * The regression analysis of the female subset indicates a statistically significant relationship between body weight and weight lifted (p < 0.05). As body weight increases, weight lifted tends to increase for female weightlifters. The coefficient estimate of 0.35583 suggests that, on average, for every one-unit increase in body weight, weight lifted increases by approximately 0.356 units. The regression model explains about 58.9% of the variance in weight lifted among female weightlifters.
 
+\newpage
 
-#### Male subset:
+### Male subset:
 
 ```{r, echo=FALSE}
 plot(male_data$bodyweight, male_data$weightlifted, 
@@ -490,17 +502,17 @@ plot(male_data$bodyweight, male_data$weightlifted,
 male_summary <- summary(male_model)
 
 # Extracting the required values
-multiple_r_male <- sqrt(male_summary$r.squared)
-r_squared_male <- male_summary$r.squared
-adjusted_r_squared_male <- male_summary$adj.r.squared
-standard_error_male <- sqrt(mean(male_summary$residuals^2))
+multiple_r_male <- round(sqrt(male_summary$r.squared),2)
+r_squared_male <- round(male_summary$r.squared,2)
+adjusted_r_squared_male <- round(male_summary$adj.r.squared,2)
+standard_error_male <- round(sqrt(mean(male_summary$residuals^2)),2)
 observations_male <- male_summary$df[2] + 2
 
 # ANOVA table for female subset
-anova_table_male <- anova(female_model)
+anova_table_male <- anova(male_model)
 ```
 
-##### Summary Output:
+##### **Summary Output:**
 
 |Regression Statistics|
 |:-|:-|
@@ -513,53 +525,61 @@ anova_table_male <- anova(female_model)
 
 ```{r, echo=FALSE}
 # accessing the values from anova table for anova table
-p_value <- anova_table_male$`Pr(>F)`[1]
-f_value <- anova_table_male$`F value`[1]
-mean_sq <- anova_table_male$`Mean Sq`[1]
-mean_sq_residual <- anova_table_male$`Mean Sq`[2]
-sum_sq <- anova_table_male$`Sum Sq`[1]
-sum_sq_residual <- anova_table_male$`Sum Sq`[2]
-df <- anova_table_male$`Df`[1]
-df_residual <- anova_table_male$`Df`[2]
+p_value_m <- anova_table_male$`Pr(>F)`[1]
+f_value_m <- round(anova_table_male$`F value`[1],2)
+mean_sq_m <- round(anova_table_male$`Mean Sq`[1],2)
+mean_sq_residual_m <- round(anova_table_male$`Mean Sq`[2],2)
+sum_sq_m <- round(anova_table_male$`Sum Sq`[1],2)
+sum_sq_residual_m <- round(anova_table_male$`Sum Sq`[2],2)
+df_m <- anova_table_male$`Df`[1]
+df_residual_m <- anova_table_male$`Df`[2]
 ```
 |ANOVA|
 |-:|-:|-:|-:|-:|-:|
 ||df|SS|MS|F|Significance F|
-|Regression (bodyweight) |`r df`|`r sum_sq`|`r mean_sq`|`r f_value`|`r p_value`|
-|Residual |`r df_residual`|`r sum_sq_residual`|`r mean_sq_residual`|||
-|Total|`r df+df_residual`|`r sum_sq + sum_sq_residual`||||
+|||||||
+|Regression (bodyweight) |`r df_m`|`r sum_sq_m`|`r mean_sq_m`|`r f_value_m`|`r p_value_m`|
+|Residual |`r df_residual_m`|`r sum_sq_residual_m`|`r mean_sq_residual_m`|||
+|Total|`r df_m+df_residual_m`|`r sum_sq_m + sum_sq_residual_m`||||
 
 
 ```{r, echo=FALSE}
 
 # Extract coefficients and related information from the summary
 
-Intercept_1 <- male_summary$coefficients[1,1]
-Intercept_2 <- male_summary$coefficients[1,2]
-Intercept_3 <- male_summary$coefficients[1,3]
-Intercept_4 <- male_summary$coefficients[1,4]
-Intercept_5 <- Intercept_1 - (1.96 * Intercept_2)
-Intercept_6 <- Intercept_1 + (1.96 * Intercept_2)
+Intercept_1_m <- round(male_summary$coefficients[1,1],2)
+Intercept_2_m <- round(male_summary$coefficients[1,2],2)
+Intercept_3_m <- round(male_summary$coefficients[1,3],2)
+Intercept_4_m <- round(male_summary$coefficients[1,4],2)
+Intercept_5_m <- round(Intercept_1 - (1.96 * Intercept_2),2)
+Intercept_6_m <- round(Intercept_1 + (1.96 * Intercept_2),2)
 
-bodyweight_1 <- male_summary$coefficients[2,1]
-bodyweight_2 <- male_summary$coefficients[2,2]
-bodyweight_3 <- male_summary$coefficients[2,3]
-bodyweight_4 <- male_summary$coefficients[2,4]
-bodyweight_5 <- bodyweight_1 - (1.96 * bodyweight_2)
-bodyweight_6 <- bodyweight_1 + (1.96 * bodyweight_2)
+bodyweight_1_m <- round(male_summary$coefficients[2,1],2)
+bodyweight_2_m <- round(male_summary$coefficients[2,2],2)
+bodyweight_3_m <- round(male_summary$coefficients[2,3],2)
+bodyweight_4_m <- round(male_summary$coefficients[2,4],2)
+bodyweight_5_m <- round(bodyweight_1 - (1.96 * bodyweight_2),2)
+bodyweight_6_m <- round(bodyweight_1 + (1.96 * bodyweight_2),2)
 
 ```
 
+\newpage
 
 ||Coefficients|Standard Error|t Stat|P-value|Lower 95% |Upper 95%|
 |-:|-:|-:|-:|-:|-:|-:|
-|Intercept|`r Intercept_1`|`r Intercept_2`|`r Intercept_3`|`r Intercept_4`|`r Intercept_5`|`r Intercept_6`|
-|BodyWeight|`r bodyweight_1`|`r bodyweight_2`|`r bodyweight_3`|`r bodyweight_4`|`r bodyweight_5`|`r bodyweight_6`|
+|Intercept|`r Intercept_1_m`|`r Intercept_2_m`|`r Intercept_3_m`|`r Intercept_4_m`|`r Intercept_5_m`|`r Intercept_6_m`|
+|BodyWeight|`r bodyweight_1_m`|`r bodyweight_2_m`|`r bodyweight_3_m`|`r bodyweight_4_m`|`r bodyweight_5_m`|`r bodyweight_6_m`|
+
+**Residual vs Fitted values:**
+
+```{r, echo=FALSE}
+plot(male_model, which = 1)
+```
 
 
 **Equation for the Least Squares Regression line for Male weight lifters:**
 
-$$\hat{\text{weight-liffted}} = 97.4969367 + (0.7211488*BodyWeight)$$
+$$\hat{\text{weight-liffted}} = 97.5	 + (0.72*BodyWeight)$$
 
 Outline of the HATPDC framework for the regression analysis of the male subset, incorporating the information provided by Summary Output:
 
@@ -597,8 +617,9 @@ C - Conclusion:
 
 * The regression analysis of the male subset indicates a statistically significant relationship between body weight and weight lifted (p < 0.05). As body weight increases, weight lifted tends to increase for male weightlifters. The coefficient estimate of 0.72115 suggests that, on average, for every one-unit increase in body weight, weight lifted increases by approximately 0.721 units. The regression model explains about 71.7% of the variance in weight lifted among male weightlifters.
 
+\newpage
 
-#### Comparing both genders:
+### Comparing both genders:
 
 ```{r, echo=FALSE, eval=TRUE}
 
@@ -612,5 +633,279 @@ legend("bottomright", legend = c("Regression Line"), col = "red", lty = 1, cex =
 plot(male_data$bodyweight, male_data$weightlifted, col = "green", xlab = "Body Weight", ylab = "Weight Lifted", main = "Male Weightlifters")
 abline(male_model, col = "red")  # Add regression line
 legend("bottomright", legend = c("Regression Line"), col = "red", lty = 1, cex = 0.7)
+
+```
+
+\newpage
+
+# Appendix
+
+## Appendix A: Descriptive Statistics
+
+Table A.1: Total number of females and males
+
+|Gender|Total Number|
+|:-|:-:|
+|Female|102|
+|Male|99|
+
+Table A.2: Summary of the age of female and male weightlifters
+
+|Gender|Min.|1st Qu.|Median|Mean $\mu$|3rd Qu.|Max.|
+|:-|:-|:-|:-|:-|:-|:-|
+|Female|18.04|25.46|27.66|28.37|31.10|44.67|
+|Male|14.93|23.85|28.27|27.58|31.32|39.75|
+
+Table A.3: Total number (n), mean ($\bar{y}$) and standard deviation (s)
+
+|Gender|total number ($n$)|mean ($\bar{y}$)|standard deviation ($s$)|
+|:-|:-|:-|:-|
+|Female|102|28.37|4.95|
+|Male|99|27.58|5.17|
+
+Table A.4: t-test of Age and Gender
+
+||t|df|p-value|
+|:-|:-|:-|:-|
+|Value|1.1035|199|0.2711|
+
+\newpage
+
+## Appendix B: Linear Regression Results for Female weight lifters
+
+Table B.1: Regression Statistics of female weight lifters
+
+|Regression Statistics|
+|:-|:-|
+|Multiple R|`r multiple_r_female`|
+|R Square|`r r_squared_female`|
+|Adjusted R Square|`r adjusted_r_squared_female`|
+|Standard Error |`r standard_error_female`|
+|Observations|`r observations_female`|
+
+Table B.2: ANOVA table female weight lifters
+
+|ANOVA|
+|-:|-:|-:|-:|-:|-:|
+||df|SS|MS|F|Significance F|
+||||||||
+|Regression (bodyweight) |`r df`|`r sum_sq`|`r mean_sq`|`r f_value`|`r p_value`|
+|Residual |`r df_residual`|`r sum_sq_residual`|`r mean_sq_residual`|||
+|Total|`r df+df_residual`|`r sum_sq + sum_sq_residual`||||
+
+Table B.3: Coefficient Table of female weight lifters
+
+||Coefficients|Standard Error|t Stat|P-value|Lower 95% |Upper 95%|
+|-:|-:|-:|-:|-:|-:|-:|
+|Intercept|`r Intercept_1`|`r Intercept_2`|`r Intercept_3`|`r Intercept_4`|`r Intercept_5`|`r Intercept_6`|
+|BodyWeight|`r bodyweight_1`|`r bodyweight_2`|`r bodyweight_3`|`r bodyweight_4`|`r bodyweight_5`|`r bodyweight_6`|
+
+\newpage
+
+## Appendix C: Linear Regression Results for Male weight lifters
+
+Table C.1: Regression Statistics of male weight lifters
+
+|Regression Statistics|
+|:-|:-|
+|Multiple R|`r multiple_r_male`|
+|R Square|`r r_squared_male`|
+|Adjusted R Square|`r adjusted_r_squared_male`|
+|Standard Error |`r standard_error_male`|
+|Observations|`r observations_male`|
+
+Table C.2: ANOVA table male weight lifters
+
+|ANOVA|
+|-:|-:|-:|-:|-:|-:|
+||df|SS|MS|F|Significance F|
+|||||||
+|Regression (bodyweight) |`r df_m`|`r sum_sq_m`|`r mean_sq_m`|`r f_value_m`|`r p_value_m`|
+|Residual |`r df_residual_m`|`r sum_sq_residual_m`|`r mean_sq_residual_m`|||
+|Total|`r df_m+df_residual_m`|`r sum_sq_m + sum_sq_residual_m`||||
+
+Table C.3: Coefficient Table of male weight lifters
+
+||Coefficients|Standard Error|t Stat|P-value|Lower 95% |Upper 95%|
+|-:|-:|-:|-:|-:|-:|-:|
+|Intercept|`r Intercept_1_m`|`r Intercept_2_m`|`r Intercept_3_m`|`r Intercept_4_m`|`r Intercept_5_m`|`r Intercept_6_m`|
+|BodyWeight|`r bodyweight_1_m`|`r bodyweight_2_m`|`r bodyweight_3_m`|`r bodyweight_4_m`|`r bodyweight_5_m`|`r bodyweight_6_m`|
+
+\newpage
+
+## Appendix D: Diagnostic Plots
+
+Figure D.1: Bar plot female vs. male
+
+```{r, echo=FALSE,eval=TRUE, warning=FALSE, message=FALSE}
+gender <- table(dat$gender)
+barplot(gender, space=0.05,
+        main = "Gender plot",
+        xlab = "Gender", 
+        ylab = "Count",
+        ylim=c(0,120)
+        )
+```
+
+\newpage
+Figure D.2: Overall Histogram of Weight of population
+
+```{r, echo=FALSE,eval=TRUE, message=FALSE}
+hist(dat$bodyweight,breaks=4, ylim=c(0,100), xlab = "Body weight", ylab = "Frequency", main = "Overall Weight of sample population")
+```
+
+\newpage
+Figure D.3: Boxplot of Weight Lifted by Gender
+
+```{r, echo=FALSE,eval=TRUE,message=FALSE, warning=FALSE}
+boxplot(weightlifted ~ gender, data = dat, xlab = "Gender", ylab = "Weight Lifted", main = "Boxplot of Weight Lifted by Gender")
+```
+
+\newpage
+Figure D.4: Boxplot Age vs. Weight Lifted
+
+```{r,echo=FALSE,eval=TRUE,message=FALSE, warning=FALSE}
+# Create separate boxplots for age and weight lifted
+par(mfrow = c(1, 2))
+
+# Boxplot of age
+boxplot(dat$age, xlab = "Age", ylab = "Years", main = "Boxplot of Age")
+
+# Boxplot of weight lifted
+boxplot(dat$weightlifted, xlab = "Weight Lifted", ylab = "Units", main = "Boxplot of Weight Lifted")
+```
+
+\newpage
+Figure D.5: Scatter Plot of Body Weight vs. Weight Lifted
+
+```{r, echo=FALSE,eval=TRUE}
+# Assuming your dataset is named 'weightlifters' and the variables are 'bodyweight' and 'weightlifted'
+plot(dat$bodyweight, dat$weightlifted, 
+     xlab = "Body Weight", ylab = "Weight Lifted",
+     main = "Scatter Plot of Body Weight vs. Weight Lifted")
+```
+
+\newpage
+Figure D.6: Scatter Plot of Female Body Weight vs. Weight Lifted
+
+```{r, echo=FALSE}
+plot(female_data$bodyweight, female_data$weightlifted, 
+     xlab = "Body Weight", ylab = "Weight Lifted",
+     main = "Scatter Plot of Female Body Weight vs. Weight Lifted")
+```
+
+\newpage
+Figure D.7: Scatter plot of Residuals vs. Fitted Values (Female Subset)
+
+```{r, echo=FALSE}
+plot(female_model, which = 1)
+```
+
+\newpage
+Figure D.8: Scatter Plot of Male Body Weight vs. Weight Lifted
+
+```{r, echo=FALSE}
+plot(male_data$bodyweight, male_data$weightlifted, 
+     xlab = "Body Weight", ylab = "Weight Lifted",
+     main = "Scatter Plot of Male Body Weight vs. Weight Lifted")
+```
+
+\newpage
+Figure D.9: Scatter plot of Residuals vs. Fitted Values (Male Subset)
+
+```{r, echo=FALSE}
+plot(male_model, which = 1)
+```
+
+\newpage
+Figure D.10: Scatter plot fir regression line of Female vs. Male Weightlifters
+
+```{r, echo=FALSE, eval=TRUE}
+
+par(mfrow = c(1, 2))
+# Create Scatter Plot for Female Subset
+plot(female_data$bodyweight, female_data$weightlifted, col = "blue", xlab = "Body Weight", ylab = "Weight Lifted", main = "Female Weightlifters")
+abline(female_model, col = "red")  # Add regression line
+legend("bottomright", legend = c("Regression Line"), col = "red", lty = 1, cex = 0.7)
+
+# Create Scatter Plot for Male Subset
+plot(male_data$bodyweight, male_data$weightlifted, col = "green", xlab = "Body Weight", ylab = "Weight Lifted", main = "Male Weightlifters")
+abline(male_model, col = "red")  # Add regression line
+legend("bottomright", legend = c("Regression Line"), col = "red", lty = 1, cex = 0.7)
+
+```
+
+
+\newpage
+
+## Appendix E: R Code Chunkss
+
+Code Chunk D.1: Data Import and Subset
+
+```{r,echo=TRUE, eval=FALSE}
+dat <- read.csv("./data/dataset.csv", header = TRUE)
+
+# Subset the dataset for females
+female_data <- subset(dat, gender == "female")
+
+# Subset the dataset for males
+male_data <- subset(dat, gender == "male")
+```
+
+---
+
+Code Chunk D.2: Linear Regression for Females
+
+```{r,echo=TRUE, eval=FALSE}
+# Linear regression for females
+female_model <- lm(weightlifted ~ bodyweight, data = female_data)
+summary(female_model)
+```
+
+---
+
+Code Chunk D.3: Linear Regression for Males
+
+```{r,echo=TRUE, eval=FALSE}
+# Linear regression for males
+male_model <- lm(weightlifted ~ bodyweight, data = male_data)
+summary(male_model)
+
+```
+
+---
+
+Code Chunk D.4: Diagnostic Plots for Females
+
+```{r,echo=TRUE, eval=FALSE}
+# Residuals vs. Fitted Values
+plot(female_model, which = 1)
+
+# Normal Q-Q Plot
+plot(female_model, which = 2)
+
+# Scale-Location Plot
+plot(female_model, which = 3)
+
+# Residuals vs. Leverage
+plot(female_model, which = 5)
+```
+
+---
+
+Code Chunk D.5: Diagnostic Plots for Males
+
+```{r,echo=TRUE, eval=FALSE}
+# Residuals vs. Fitted Values
+plot(male_model, which = 1)
+
+# Normal Q-Q Plot
+plot(male_model, which = 2)
+
+# Scale-Location Plot
+plot(male_model, which = 3)
+
+# Residuals vs. Leverage
+plot(male_model, which = 5)
 
 ```
